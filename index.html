@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD Operation in List</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+    <script>
+        var data = [
+            { "id": "101", "Name": "A", "Course": "MCA" },
+            { "id": "102", "Name": "B", "Course": "MBA" },
+            { "id": "103", "Name": "C", "Course": "MCA" },
+            { "id": "104", "Name": "D", "Course": "MA" },
+            { "id": "105", "Name": "E", "Course": "MCA" },
+            { "id": "106", "Name": "F", "Course": "MBA" },
+            { "id": "107", "Name": "G", "Course": "M.Com" },
+            { "id": "108", "Name": "H", "Course": "MCA" }
+        ]
+        function load_data() {
+            var dt =
+                `<div class="d-grid gap-2 col-6 mx-auto">
+                <button type="button" class="btn btn-outline-success" onclick="showInsert()"><i class="fa-solid fa-user-plus"></i></button></div>
+            <br>
+            <table class="table table-striped table-hover table-dark"
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Course</th>
+                <th>
+                    <center>Action</center>
+                </th>
+                &emsp;
+                <tr>`
+
+            data.forEach(row => {
+                dt += `<tr>
+                    <td>${row.id}</td>
+                    <td>${row.Name}</td>
+                    <td>${row.Course}</td>
+                    <td>
+                    <button type="button" class="btn btn-outline-danger" onclick="delData('${row.id}')"><i class="fa-solid fa-user-minus"></i></button>
+                    <button type="button" class="btn btn-outline-primary" onclick="showEdit('${row.id}','${row.Name}','${row.Course}')" ><i class="fa-solid fa-user-pen"></i></button>
+                    </td>
+                </tr>
+                `
+            });
+            dt += `</table>`
+            document.getElementById("data1").innerHTML = dt
+        }
+        function showInsert() {
+            document.getElementById("insert").style.display = "block"
+        }
+        function Insert() {
+            var n = document.getElementById("n").value
+            var c = document.getElementById("c").value
+            var dt = { "id": data.length + 101, "Name": n, "Course": c }
+            data.push(dt)
+            console.log(data)
+            alert("Record added successfuly")
+            load_data()
+            document.getElementById("n").value
+            document.getElementById("c").value
+            document.getElementById("insert").style.display = "none"
+        }
+        function showEdit(id, name, course) {
+            document.getElementById("id").value=id
+            document.getElementById("un").value=name
+            document.getElementById("uc").value=course
+            document.getElementById("edit").style.display = "block"
+        }
+        function update() {
+            var id = document.getElementById("id").value
+            var name = document.getElementById("un").value
+            var course = document.getElementById("uc").value
+            var pos = data.findIndex(item => item.id == id)
+            
+            data[pos].Name = name
+            data[pos].Course = course
+            alert("Record edited successfuly")
+            load_data()
+            document.getElementById("edit").style.display = "none"
+        }
+
+        function delData(id){
+            if(confirm("Want to delete Record with id "+id+"?")){
+            data=data.filter(item=>item.id!=id)
+            load_data()
+            alert("record deleted successfully")
+            }
+            else{}
+        }
+
+
+    </script>
+
+</head>
+
+<body>
+    <!-- CRUD Operation (Create, Read, Update, Delete) -->
+    <div class="container">
+        <div class="row">
+            <h1>
+                <hr>
+                <center>CRUD Operation</center>
+                <hr>
+            </h1>
+            <div class="col-md-2"></div><center>
+            <div class="col-md-5 col-12 shadow-lg mx-auto" id="data1"
+                style="padding: 20px; border: 2px solid rgb(9, 106, 9);margin-top: 20px; ">
+                <div class="d-grid gap-2 col-6 mx-auto">
+                    <button type="button" class="btn btn-outline-success" value="load_data" onclick="load_data()">LOAD
+                        DATA</button>
+
+                </div>
+            </div>
+            <div class="col-md-1 col-12"></div>
+            <div class="col-md-4 col-12">
+                <div style="border: 2px solid rgb(6, 92, 6);padding: 20px; margin-top: 20px; display: none;"
+                    id="insert">
+                    <center>
+                        <h2>Add Data
+                            <hr>
+                        </h2>
+                        <br>
+                        <div class="col">
+                            Enter Name
+                            <input type="text" class="form-control" id="n">
+                        </div>
+                        <br>
+                        <div class="col">
+                            Enter Course
+                            <input type="text" class="form-control" id="c">
+                        </div>
+                        <br><br>
+                        <div class="d-grid gap-2 col-6 mx-auto">
+                            <button type="button" class="btn btn-outline-success" onclick="Insert()">Add</button>
+                        </div>
+                        <br>
+                    </center>
+                </div>
+                <div style="border: 2px solid rgb(6, 92, 6);padding: 20px; margin-top: 20px; display: none;" id="edit">
+                    <center>
+                        <h2>Edit Record
+                            <hr>
+                        </h2>
+                        <br>
+                        <div class="col">
+                            ID
+                            <input type="text" class="form-control" id="id">
+                        </div>
+                        <br>
+                        <div class="col">
+                            Name
+                            <input type="text" class="form-control" id="un">
+                        </div>
+                        <div class="col">
+                            Course
+                            <input type="text" class="form-control" id="uc">
+                        </div>
+                        <br><br>
+                        <div class="d-grid gap-2 col-6 mx-auto">
+                            <button type="button" class="btn btn-outline-success" onclick="update()">Update</button>
+                        </div>
+                        <br>
+                    </center>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
